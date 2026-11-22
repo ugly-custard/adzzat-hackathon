@@ -14,6 +14,7 @@ const norm = (s: string) => s.toLowerCase().replace(/(\d),(?=\d{3}\b)/g, "$1").r
 
 export const strictGrader: Grader = {
   version: STRICT_VERSION,
+  sources: ["lib/harness/graders/strict.ts", "lib/harness/tools.ts", "lib/harness/conditions.ts", "lib/harness/validate.ts"],
   async grade(task, trajectory, { model, run_id, seed }) {
     const errors = [...validateTask(task), ...validateTrajectory(trajectory)];
     if (errors.length) throw new Error(errors.join("; "));

@@ -54,10 +54,12 @@ for (const [traj, verd] of [
   runIds.push(run_id);
 }
 
-console.log("\nrun".padEnd(62) + Object.keys(GRADERS).map((g) => g.padEnd(24)).join(""));
+// Naive first so its verdict is the "original" output that later, corrected graders are compared against.
+const ORDER = ["naive", "reference", "strict"];
+console.log("\nrun".padEnd(62) + ORDER.map((g) => GRADERS[g].version.padEnd(24)).join(""));
 for (const id of runIds) {
   const cols: string[] = [];
-  for (const g of Object.keys(GRADERS)) {
+  for (const g of ORDER) {
     try {
       cols.push((await gradeRun(id, g)).outcome.padEnd(24));
     } catch (err) {

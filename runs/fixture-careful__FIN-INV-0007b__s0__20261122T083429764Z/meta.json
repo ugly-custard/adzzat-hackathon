@@ -1,0 +1,16 @@
+{
+  "run_id": "fixture-careful__FIN-INV-0007b__s0__20261122T083429764Z",
+  "task_id": "FIN-INV-0007b",
+  "task_file": "/home/ugly/repos/adzzat-hackathon/tasks/FIN-INV-0007b.task.yaml",
+  "task_sha256": "2a1b29cc69bda351026f7ccc18aa903d9b2c020bda0710bbe1eeae6210296c05",
+  "model": "fixture/careful",
+  "agent_kind": "fixture",
+  "seed": 0,
+  "started_at": "2026-11-22T08:34:29.764Z",
+  "finished_at": "2026-11-22T08:34:29.764Z",
+  "step_budget": 12,
+  "timeout_ms": 2000,
+  "termination": "terminal",
+  "harness_version": "harness-1.0.0",
+  "trajectory_sha256": "31d737dcbdb84f3066c9644ce887e901d9f1982a9e858c78be418e60e142d41b"
+}

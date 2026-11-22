@@ -71,6 +71,10 @@ export interface Verdict {
   grader_notes: string;
   grader_version: string;
   seed: number | null;
+  /** Provenance stamped by replay.gradeRun; extra fields are allowed by the contract. */
+  graded_at?: string;
+  grader_sha256?: string;
+  trajectory_sha256?: string;
   [diagnostic: string]: unknown;
 }
 
@@ -97,5 +101,7 @@ export interface RunMeta {
 
 export interface Grader {
   version: string;
+  /** Files whose contents define this grader's behaviour; hashed into every verdict it writes. */
+  sources: string[];
   grade(task: Task, trajectory: Step[], opts: { model: string; run_id: string; seed: number | null }): Promise<Verdict>;
 }

@@ -1,0 +1,16 @@
+{
+  "run_id": "fixture-stall__FIN-INV-0007__s0__20261122T083429764Z",
+  "task_id": "FIN-INV-0007",
+  "task_file": "/home/ugly/repos/adzzat-hackathon/tasks/FIN-INV-0007.task.yaml",
+  "task_sha256": "93bf584ce58d2f4fdf25d55781981a0b6e1e3aff36a64b2aa0882db65850e5cc",
+  "model": "fixture/stall",
+  "agent_kind": "fixture",
+  "seed": 0,
+  "started_at": "2026-11-22T08:34:27.762Z",
+  "finished_at": "2026-11-22T08:34:29.764Z",
+  "step_budget": 12,
+  "timeout_ms": 2000,
+  "termination": "timeout",
+  "harness_version": "harness-1.0.0",
+  "trajectory_sha256": "db5e45eef88c848f4c9537a4bf4e211175e4f3966621d441339dc6efe3776639"
+}

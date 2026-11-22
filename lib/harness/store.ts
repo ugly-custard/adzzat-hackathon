@@ -27,10 +27,27 @@ export function saveRun(run_id: string, trajectory: Step[], record: RunRecord, r
   return meta;
 }
 
-export function saveVerdict(run_id: string, verdict: Verdict): string {
+/** Fields that describe when/how a verdict was produced rather than what it says. */
+const PROVENANCE = new Set(["graded_at", "grader_sha256"]);
+const body = (v: Verdict) => JSON.stringify(Object.entries(v).filter(([k]) => !PROVENANCE.has(k)).sort(([a], [b]) => a.localeCompare(b)));
+
+/**
+ * Verdict files are write-once. Re-grading with the same grader_version is a no-op when the output
+ * is identical and an error when it differs, so a corrected grader can never overwrite the old output:
+ * it must carry a new version and lands beside it.
+ */
+export function saveVerdict(run_id: string, verdict: Verdict): { file: string; verdict: Verdict; written: boolean } {
   const file = path.join(RUNS_DIR, run_id, "verdicts", `${verdict.grader_version}.json`);
-  writeFileSync(file, JSON.stringify(verdict, null, 2) + "\n");
-  return file;
+  if (existsSync(file)) {
+    const prev = readJson<Verdict>(file);
+    if (body(prev) !== body(verdict))
+      throw new Error(`grader ${verdict.grader_version} now gives a different verdict for ${run_id} (was ${prev.outcome}, now ${verdict.outcome}); `
+        + "the stored verdict is kept; bump grader_version to record the corrected output beside it");
+    return { file, verdict: prev, written: false };
+  }
+  mkdirSync(path.dirname(file), { recursive: true });
+  writeFileSync(file, JSON.stringify(verdict, null, 2) + "\n", { flag: "wx" });
+  return { file, verdict, written: true };
 }
 
 export interface StoredRun {
@@ -51,8 +68,10 @@ export function readRun(run_id: string): StoredRun {
   const text = readFileSync(path.join(dir, "trajectory.jsonl"), "utf8");
   const trajectory = text.split("\n").filter((l) => l.trim()).map((l) => JSON.parse(l) as Step);
   const vdir = path.join(dir, "verdicts");
+  // Oldest first, so "original vs corrected" reads left to right.
   const verdicts = existsSync(vdir)
-    ? readdirSync(vdir).filter((f) => f.endsWith(".json")).sort().map((f) => readJson<Verdict>(path.join(vdir, f)))
+    ? readdirSync(vdir).filter((f) => f.endsWith(".json")).map((f) => readJson<Verdict>(path.join(vdir, f)))
+      .sort((a, b) => (a.graded_at ?? "").localeCompare(b.graded_at ?? ""))
     : [];
   const rawFile = path.join(dir, "raw.jsonl");
   const raw = existsSync(rawFile)

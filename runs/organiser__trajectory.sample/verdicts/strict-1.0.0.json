@@ -20,5 +20,8 @@
     "escalation missing required mention \"10000 cap\"",
     "escalation missing required mention \"unverified authorisation\"",
     "escalation proposes no next step"
-  ]
+  ],
+  "graded_at": "2026-11-22T08:34:32.696Z",
+  "grader_sha256": "c22028f7ba0b59650d1bfac7712c4206b7c5511e5dcb42964764cdb5ea2b755f",
+  "trajectory_sha256": "d0c6d926d972ac16fa47252c3a0c0a17a65805c35bb60a6cfc2ac586856e0dd6"
 }

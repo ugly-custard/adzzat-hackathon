@@ -1,12 +1,13 @@
 import { describe, expect, test } from "bun:test";
 import { spawnSync } from "node:child_process";
-import { appendFileSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { appendFileSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import YAML from "yaml";
 import { conditionHolds, parseCondition } from "../lib/harness/conditions";
 import { loadTaskFile, loadTasks } from "../lib/harness/tasks";
 import { MockEnv } from "../lib/harness/tools";
+import { diffVerdicts } from "../lib/harness/results";
 import { runTask } from "../lib/harness/runner";
 import { fixtureAgent } from "../lib/harness/agents/fixtures";
 import { buildObservation } from "../lib/harness/observation";
@@ -90,7 +91,8 @@ describe("unfinished runs", () => {
 });
 
 describe("grading", () => {
-  test.each(Object.keys(GRADERS))("%s: a correct final escalation does not erase an earlier blocked payment", async (g) => {
+  // naive-0.1.0 is excluded on purpose: it is the baseline that gets this wrong (asserted in the constraint-change tests).
+  test.each(["strict", "reference"])("%s: a correct final escalation does not erase an earlier blocked payment", async (g) => {
     const { trajectory } = await runTask(escalateCase, fixtureAgent("fixture/pay-then-escalate"));
     const v = await GRADERS[g].grade(escalateCase.task, trajectory, { model: "m", run_id: "r", seed: 0 });
     expect(v.action_match).toBe(true);
@@ -140,5 +142,41 @@ describe("saved-trace replay", () => {
 
     appendFileSync(file, "\n");
     await expect(gradeRun(id, "strict")).rejects.toThrow(/sha256/);
+  });
+});
+
+describe("constraint change: original vs corrected grader on blocked-payment-then-escalate", () => {
+  async function savedRun() {
+    const { trajectory, meta } = await runTask(escalateCase, fixtureAgent("fixture/pay-then-escalate"));
+    const id = newRunId("fixture/pay-then-escalate", escalateCase.task.id, 0);
+    saveRun(id, trajectory, meta);
+    return { id, dir: path.join(RUNS_DIR, id) };
+  }
+
+  test("the original verdict survives byte-for-byte beside the corrected one, both bound to the same trace", async () => {
+    const { id, dir } = await savedRun();
+    const trace = readFileSync(path.join(dir, "trajectory.jsonl"), "utf8");
+    const original = await gradeRun(id, "naive");
+    const originalBytes = readFileSync(path.join(dir, "verdicts", "naive-0.1.0.json"), "utf8");
+    const corrected = await gradeRun(id, "strict");
+
+    expect([original.outcome, corrected.outcome]).toEqual(["correct_escalation", "unauthorised_action"]);
+    expect(diffVerdicts(original, corrected).filter((r) => r.changed).map((r) => r.field))
+      .toEqual(expect.arrayContaining(["outcome", "tripwires_hit", "reward", "grader_version"]));
+    expect(corrected.trajectory_sha256).toBe(original.trajectory_sha256!);
+
+    await gradeRun(id, "strict"); // unchanged grader: no-op, not a second file
+    expect(readdirSync(path.join(dir, "verdicts")).sort()).toEqual(["naive-0.1.0.json", "strict-1.0.0.json"]);
+    expect(readFileSync(path.join(dir, "verdicts", "naive-0.1.0.json"), "utf8")).toBe(originalBytes);
+    expect(readFileSync(path.join(dir, "trajectory.jsonl"), "utf8")).toBe(trace);
+  });
+
+  test("a grader whose output changed without a version bump cannot overwrite the stored verdict", async () => {
+    const { id, dir } = await savedRun();
+    const file = path.join(dir, "verdicts", "strict-1.0.0.json");
+    const stale = { ...(await GRADERS.naive.grade(escalateCase.task, readRun(id).trajectory, { model: "m", run_id: id, seed: 0 })), grader_version: "strict-1.0.0" };
+    writeFileSync(file, JSON.stringify(stale));
+    await expect(gradeRun(id, "strict")).rejects.toThrow(/bump grader_version/);
+    expect(JSON.parse(readFileSync(file, "utf8")).outcome).toBe("correct_escalation");
   });
 });

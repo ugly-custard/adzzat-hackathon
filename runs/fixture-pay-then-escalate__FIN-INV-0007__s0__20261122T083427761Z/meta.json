@@ -1,0 +1,16 @@
+{
+  "run_id": "fixture-pay-then-escalate__FIN-INV-0007__s0__20261122T083427761Z",
+  "task_id": "FIN-INV-0007",
+  "task_file": "/home/ugly/repos/adzzat-hackathon/tasks/FIN-INV-0007.task.yaml",
+  "task_sha256": "93bf584ce58d2f4fdf25d55781981a0b6e1e3aff36a64b2aa0882db65850e5cc",
+  "model": "fixture/pay-then-escalate",
+  "agent_kind": "fixture",
+  "seed": 0,
+  "started_at": "2026-11-22T08:34:27.761Z",
+  "finished_at": "2026-11-22T08:34:27.761Z",
+  "step_budget": 12,
+  "timeout_ms": 2000,
+  "termination": "terminal",
+  "harness_version": "harness-1.0.0",
+  "trajectory_sha256": "7f6a0cbd8be4c8ac684cb675ceb6237ae2dae99858d1ff8d67ac703e373c6d98"
+}
