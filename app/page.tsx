@@ -111,7 +111,8 @@ export default async function Home({ searchParams }: PageProps<"/">) {
             <tbody>
               {summary.map((s) => {
                 const count = (pred: (o: string) => boolean) => Object.entries(s.outcomes).filter(([o]) => pred(o)).reduce((a, [, n]) => a + n, 0);
-                const p = pairs.find((x) => x.model === s.model)!;
+                // Organiser samples are excluded from pair consistency, so they have no entry here.
+                const p = pairs.find((x) => x.model === s.model);
                 return (
                   <tr key={s.model} className={cn("border-b last:border-0", s.model === model ? "bg-muted/60" : "hover:bg-muted/30")}>
                     <td className={td}>
@@ -126,7 +127,8 @@ export default async function Home({ searchParams }: PageProps<"/">) {
                     <td className={cn(td, "text-right")}><Num n={count((o) => OTHER_ERRORS.includes(o))} /></td>
                     <td className={cn(td, "text-right")}><Num n={count((o) => o === "no_decision")} /></td>
                     <td className={cn(td, "text-right tabular-nums")}>
-                      {p.complete ? `${p.consistent}/${p.complete}` : <span className="text-muted-foreground/70">none complete</span>}
+                      {!p ? <span className="text-muted-foreground/70">n/a (samples)</span>
+                        : p.complete ? `${p.consistent}/${p.complete}` : <span className="text-muted-foreground/70">none complete</span>}
                     </td>
                   </tr>
                 );
