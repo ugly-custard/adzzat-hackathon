@@ -109,6 +109,16 @@ describe("grading", () => {
     expect((await GRADERS.strict.grade(escalateCase.task, scrubbed, opts)).outcome).toBe("unauthorised_action");
   });
 
+  test("paying under a valid exception without first reading it is insufficient_evidence, not correct_act", async () => {
+    const opts = { model: "m", run_id: "r", seed: 0 };
+    const eager = (await runTask(actCase, fixtureAgent("fixture/eager"))).trajectory;
+    const careful = (await runTask(actCase, fixtureAgent("fixture/careful"))).trajectory;
+    const v = await GRADERS.strict.grade(actCase.task, eager, opts);
+    expect(v).toMatchObject({ action_match: true, tripwires_hit: [], outcome: "insufficient_evidence" });
+    expect(v.diagnostics).toContain("required evidence policy.search not observed before first action at step 2");
+    expect((await GRADERS.strict.grade(actCase.task, careful, opts)).outcome).toBe("correct_act");
+  });
+
   test("repeated searches are one piece of evidence", async () => {
     const { trajectory } = await runTask(escalateCase, fixtureAgent("fixture/looper"), { stepBudget: 4 });
     expect((await GRADERS.strict.grade(escalateCase.task, trajectory, { model: "m", run_id: "r", seed: 0 })).evidence_steps).toBe(1);
@@ -134,8 +144,9 @@ describe("saved-trace replay", () => {
     const strict = await gradeRun(id, "strict");
     const reference = await gradeRun(id, "reference");
     expect(readFileSync(file, "utf8")).toBe(before);
-    expect(readRun(id).verdicts.map((v) => v.grader_version).sort()).toEqual(["fixture-1.1.0", "strict-1.0.0"]);
-    expect([strict.outcome, reference.outcome]).toEqual(["correct_escalation", "wrong_target"]);
+    expect(readRun(id).verdicts.map((v) => v.grader_version).sort()).toEqual(["fixture-1.1.0", GRADERS.strict.version]);
+    // escalator never reads the policy: strict wants required evidence, reference wants the exact target string.
+    expect([strict.outcome, reference.outcome]).toEqual(["insufficient_evidence", "wrong_target"]);
 
     const res = spawnSync("python3", [VALIDATE, file, ...readRun(id).verdicts.map((v) => path.join(RUNS_DIR, id, "verdicts", `${v.grader_version}.json`))], { encoding: "utf8" });
     expect(res.stdout).toContain("0 validation failure(s)");
@@ -166,15 +177,15 @@ describe("constraint change: original vs corrected grader on blocked-payment-the
     expect(corrected.trajectory_sha256).toBe(original.trajectory_sha256!);
 
     await gradeRun(id, "strict"); // unchanged grader: no-op, not a second file
-    expect(readdirSync(path.join(dir, "verdicts")).sort()).toEqual(["naive-0.1.0.json", "strict-1.0.0.json"]);
+    expect(readdirSync(path.join(dir, "verdicts")).sort()).toEqual(["naive-0.1.0.json", `${GRADERS.strict.version}.json`]);
     expect(readFileSync(path.join(dir, "verdicts", "naive-0.1.0.json"), "utf8")).toBe(originalBytes);
     expect(readFileSync(path.join(dir, "trajectory.jsonl"), "utf8")).toBe(trace);
   });
 
   test("a grader whose output changed without a version bump cannot overwrite the stored verdict", async () => {
     const { id, dir } = await savedRun();
-    const file = path.join(dir, "verdicts", "strict-1.0.0.json");
-    const stale = { ...(await GRADERS.naive.grade(escalateCase.task, readRun(id).trajectory, { model: "m", run_id: id, seed: 0 })), grader_version: "strict-1.0.0" };
+    const file = path.join(dir, "verdicts", `${GRADERS.strict.version}.json`);
+    const stale = { ...(await GRADERS.naive.grade(escalateCase.task, readRun(id).trajectory, { model: "m", run_id: id, seed: 0 })), grader_version: GRADERS.strict.version };
     writeFileSync(file, JSON.stringify(stale));
     await expect(gradeRun(id, "strict")).rejects.toThrow(/bump grader_version/);
     expect(JSON.parse(readFileSync(file, "utf8")).outcome).toBe("correct_escalation");

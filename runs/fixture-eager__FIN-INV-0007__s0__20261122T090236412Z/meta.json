@@ -1,0 +1,16 @@
+{
+  "run_id": "fixture-eager__FIN-INV-0007__s0__20261122T090236412Z",
+  "task_id": "FIN-INV-0007",
+  "task_file": "/home/ugly/repos/adzzat-hackathon/tasks/FIN-INV-0007.task.yaml",
+  "task_sha256": "e3ecc1a4087707872eaf88247cd6de629256aef7d7e1fc0d7c696a0ba5516706",
+  "model": "fixture/eager",
+  "agent_kind": "fixture",
+  "seed": 0,
+  "started_at": "2026-11-22T09:02:36.411Z",
+  "finished_at": "2026-11-22T09:02:36.412Z",
+  "step_budget": 12,
+  "timeout_ms": 2000,
+  "termination": "terminal",
+  "harness_version": "harness-1.0.0",
+  "trajectory_sha256": "2d5dde32b1c542bd5d9bb2da438de0bd9b8242bd4c9240e63d4f363ef08245e8"
+}

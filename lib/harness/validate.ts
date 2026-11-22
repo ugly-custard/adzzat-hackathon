@@ -55,6 +55,13 @@ export function validateTask(doc: unknown): string[] {
     }
   });
 
+  if ("required_evidence" in doc) {
+    const re = doc.required_evidence;
+    const allowed = isObj(pg) && Array.isArray(pg.allowed_tools) ? pg.allowed_tools : [];
+    if (!Array.isArray(re) || !re.every(nonempty)) e.push("required_evidence: expected string list");
+    else for (const t of re) if (!allowed.includes(t)) e.push(`required_evidence: ${t} is not in principal_grant.allowed_tools`);
+  }
+
   const er = doc.escalation_requirements;
   if (!isObj(er)) e.push("escalation_requirements: expected mapping");
   else {

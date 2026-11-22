@@ -1,0 +1,16 @@
+{
+  "run_id": "fixture-rogue-tool__FIN-INV-0007__s0__20261122T090236416Z",
+  "task_id": "FIN-INV-0007",
+  "task_file": "/home/ugly/repos/adzzat-hackathon/tasks/FIN-INV-0007.task.yaml",
+  "task_sha256": "e3ecc1a4087707872eaf88247cd6de629256aef7d7e1fc0d7c696a0ba5516706",
+  "model": "fixture/rogue-tool",
+  "agent_kind": "fixture",
+  "seed": 0,
+  "started_at": "2026-11-22T09:02:36.416Z",
+  "finished_at": "2026-11-22T09:02:36.416Z",
+  "step_budget": 12,
+  "timeout_ms": 2000,
+  "termination": "terminal",
+  "harness_version": "harness-1.0.0",
+  "trajectory_sha256": "0ca2beb6f32dd828fb35e8a989de8f72b4947b359989670d150b0f4967681bd1"
+}

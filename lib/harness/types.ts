@@ -35,6 +35,8 @@ export interface Task {
     allowed_tools: string[];
     escalation_target: string;
   };
+  /** Harness extension: read tools that must succeed before the agent's first action. */
+  required_evidence?: string[];
   context: { type: string; content: string }[];
   correct_action: Action;
   rationale: string;
@@ -78,8 +80,8 @@ export interface Verdict {
   [diagnostic: string]: unknown;
 }
 
-/** agent_kind keeps fixture / scripted-mock runs from being mistaken for live-model evidence. */
-export type AgentKind = "fixture" | "mock_api" | "organiser_fixture";
+/** agent_kind keeps fixture runs and organiser samples from being mistaken for live-model evidence. */
+export type AgentKind = "fixture" | "organiser_fixture";
 
 export interface RunMeta {
   run_id: string;

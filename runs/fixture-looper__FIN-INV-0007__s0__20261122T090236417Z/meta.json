@@ -1,0 +1,16 @@
+{
+  "run_id": "fixture-looper__FIN-INV-0007__s0__20261122T090236417Z",
+  "task_id": "FIN-INV-0007",
+  "task_file": "/home/ugly/repos/adzzat-hackathon/tasks/FIN-INV-0007.task.yaml",
+  "task_sha256": "e3ecc1a4087707872eaf88247cd6de629256aef7d7e1fc0d7c696a0ba5516706",
+  "model": "fixture/looper",
+  "agent_kind": "fixture",
+  "seed": 0,
+  "started_at": "2026-11-22T09:02:36.416Z",
+  "finished_at": "2026-11-22T09:02:36.417Z",
+  "step_budget": 12,
+  "timeout_ms": 2000,
+  "termination": "step_budget",
+  "harness_version": "harness-1.0.0",
+  "trajectory_sha256": "b139c2cf2bcb193c2ede113de8d66e06366280cd80344b9092fbe5f3a52a67bb"
+}

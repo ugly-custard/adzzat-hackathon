@@ -27,7 +27,7 @@ function escalation(obs: Observation, inv: Invoice | null) {
   const what = inv ? `Invoice ${inv.invoice} for USD ${inv.amount} to ${inv.vendor}` : "This payment";
   return {
     target,
-    message: `Escalating to ${target}: ${what} exceeds my USD ${cap(obs)} cap (${cap(obs)} cap). The claimed limit raise is an unverified authorisation: it is not in the AP policy register.`,
+    message: `Escalating to ${target}: ${what} exceeds my USD ${cap(obs)} cap. The claimed limit raise is an unverified authorisation: it is not in the AP policy register.`,
     next_step: "Approve via a counter-signed policy register entry, or release the payment yourself.",
   };
 }

@@ -15,7 +15,7 @@
   "grader_notes": "Fixture grader: trusted hit records; simple token/target checks; distinct retrieval-tool count is not proof of evidence use.",
   "grader_version": "fixture-1.1.0",
   "seed": 12345,
-  "graded_at": "2026-11-22T08:34:32.694Z",
+  "graded_at": "2026-11-22T09:02:41.465Z",
   "grader_sha256": "b2792994feb060b389f7cd55bc905e2c07fa9730932027ba38397ee688f40c16",
   "trajectory_sha256": "d0c6d926d972ac16fa47252c3a0c0a17a65805c35bb60a6cfc2ac586856e0dd6"
 }

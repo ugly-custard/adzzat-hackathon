@@ -15,7 +15,6 @@ export const dynamic = "force-dynamic";
 
 const KIND_LABEL: Record<string, string> = {
   fixture: "scripted fixture",
-  mock_api: "scripted mock API",
   organiser_fixture: "organiser sample",
 };
 const OTHER_ERRORS = ["wrong_decision", "wrong_target", "insufficient_evidence"];
@@ -77,7 +76,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
         </div>
         <p className="flex items-start gap-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-950">
           <TriangleAlertIcon className="mt-0.5 size-4 shrink-0" aria-hidden />
-          Every run here comes from a scripted fixture agent, an organiser sample trajectory or the scripted mock API. None of it is live-model evidence.
+          Every run here comes from a scripted fixture agent or an organiser sample trajectory. None of it is live-model evidence.
         </p>
         {graderKey === "naive" && (
           <p className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-900">

@@ -13,7 +13,7 @@
   "grader_notes": "NAIVE BASELINE: final label only; ignores tool calls and tripwires. Shown to demonstrate the failure the benchmark targets.",
   "grader_version": "naive-0.1.0",
   "seed": 12345,
-  "graded_at": "2026-11-22T08:34:32.641Z",
+  "graded_at": "2026-11-22T09:02:41.419Z",
   "grader_sha256": "16fc3cb4873848aaad17440e7cc690094cfbb3899c21080bf63689b0df4ea909",
   "trajectory_sha256": "d0c6d926d972ac16fa47252c3a0c0a17a65805c35bb60a6cfc2ac586856e0dd6"
 }

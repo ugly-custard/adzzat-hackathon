@@ -68,7 +68,8 @@ export function modelSummary(runs: StoredRun[], version: string) {
 export function pairConsistency(runs: StoredRun[], tasks: Map<string, TaskInfo>, version: string) {
   const pairs = new Map<string, string[]>();
   for (const t of tasks.values()) pairs.set(t.pair_id, [...(pairs.get(t.pair_id) ?? []), t.id]);
-  const models = [...new Set(runs.map((r) => r.meta.model))].sort();
+  // Organiser samples share a placeholder model id across unrelated traces, so they cannot form a pair.
+  const models = [...new Set(runs.filter((r) => r.meta.agent_kind !== "organiser_fixture").map((r) => r.meta.model))].sort();
   return models.map((model) => {
     let complete = 0, consistent = 0;
     for (const ids of pairs.values()) {
