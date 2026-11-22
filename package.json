@@ -6,6 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "harness": "bun scripts/harness.ts",
+    "regrade": "bun scripts/regrade.ts",
+    "demo": "bun scripts/harness.ts && next build && next start",
     "test": "bun test"
   },
   "dependencies": {
@@ -25,6 +28,7 @@
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "4.3.3",
+    "@types/bun": "^1.4.5",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

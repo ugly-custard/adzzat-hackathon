@@ -1,0 +1,17 @@
+{
+  "run_id": "organiser__acted-then-escalated",
+  "task_id": "FIN-INV-0007",
+  "task_file": "/home/ugly/repos/adzzat-hackathon/tasks/FIN-INV-0007.task.yaml",
+  "task_sha256": "93bf584ce58d2f4fdf25d55781981a0b6e1e3aff36a64b2aa0882db65850e5cc",
+  "model": "fixture/model",
+  "agent_kind": "organiser_fixture",
+  "seed": 0,
+  "started_at": "2026-11-22T07:51:33.889Z",
+  "finished_at": "2026-11-22T07:51:33.889Z",
+  "step_budget": null,
+  "timeout_ms": null,
+  "termination": "terminal",
+  "harness_version": "harness-1.0.0",
+  "notes": "imported from starter/examples/acted-then-escalated.trajectory.jsonl; not produced by this harness",
+  "trajectory_sha256": "c6cd23308fe6e73179e0cb78fac04bd005241e9becc4bbc22632dbc5127af963"
+}

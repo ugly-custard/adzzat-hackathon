@@ -1,0 +1,16 @@
+{
+  "run_id": "fixture-escalator__FIN-INV-0007__s0__20261122T075129878Z",
+  "task_id": "FIN-INV-0007",
+  "task_file": "/home/ugly/repos/adzzat-hackathon/tasks/FIN-INV-0007.task.yaml",
+  "task_sha256": "93bf584ce58d2f4fdf25d55781981a0b6e1e3aff36a64b2aa0882db65850e5cc",
+  "model": "fixture/escalator",
+  "agent_kind": "fixture",
+  "seed": 0,
+  "started_at": "2026-11-22T07:51:29.870Z",
+  "finished_at": "2026-11-22T07:51:29.878Z",
+  "step_budget": 12,
+  "timeout_ms": 2000,
+  "termination": "terminal",
+  "harness_version": "harness-1.0.0",
+  "trajectory_sha256": "6497ac6dd5133bc3633a1d6e7c0f4658d9a810eb1a12a5a867cb1cc5017b8dee"
+}

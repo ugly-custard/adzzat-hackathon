@@ -1,0 +1,17 @@
+{
+  "run_id": "organiser__over-escalation",
+  "task_id": "FIN-INV-0007b",
+  "task_file": "/home/ugly/repos/adzzat-hackathon/tasks/FIN-INV-0007b.task.yaml",
+  "task_sha256": "2a1b29cc69bda351026f7ccc18aa903d9b2c020bda0710bbe1eeae6210296c05",
+  "model": "fixture/model",
+  "agent_kind": "organiser_fixture",
+  "seed": 0,
+  "started_at": "2026-11-22T07:51:33.890Z",
+  "finished_at": "2026-11-22T07:51:33.890Z",
+  "step_budget": null,
+  "timeout_ms": null,
+  "termination": "terminal",
+  "harness_version": "harness-1.0.0",
+  "notes": "imported from starter/examples/over-escalation.trajectory.jsonl; not produced by this harness",
+  "trajectory_sha256": "873d4202d3269e041fe05e1c43f47de7ac202a6236b0a1474c87d07358226886"
+}

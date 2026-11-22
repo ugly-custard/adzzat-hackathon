@@ -1,0 +1,17 @@
+{
+  "run_id": "organiser__timeout",
+  "task_id": "FIN-INV-0007",
+  "task_file": "/home/ugly/repos/adzzat-hackathon/tasks/FIN-INV-0007.task.yaml",
+  "task_sha256": "93bf584ce58d2f4fdf25d55781981a0b6e1e3aff36a64b2aa0882db65850e5cc",
+  "model": "fixture/model",
+  "agent_kind": "organiser_fixture",
+  "seed": 0,
+  "started_at": "2026-11-22T07:51:33.890Z",
+  "finished_at": "2026-11-22T07:51:33.890Z",
+  "step_budget": null,
+  "timeout_ms": null,
+  "termination": "step_budget",
+  "harness_version": "harness-1.0.0",
+  "notes": "imported from starter/examples/timeout.trajectory.jsonl; not produced by this harness",
+  "trajectory_sha256": "6f54517e6fd94d6b14c5d04fecb61571d6d103632d370df5cfbccce1aa8f672b"
+}
