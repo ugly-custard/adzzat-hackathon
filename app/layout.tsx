@@ -11,15 +11,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-background text-foreground">
         <Providers>
-          <header className="flex items-center gap-6 border-b px-6 py-3">
-            <Link href="/" className="font-semibold">Escalation-Bench</Link>
-            <nav className="flex flex-1 gap-4 text-sm">
-              <Link href="/" className="text-muted-foreground hover:text-foreground">Results</Link>
-            </nav>
+          <header className="sticky top-0 z-10 border-b bg-background/90 backdrop-blur-sm">
+            <div className="mx-auto flex w-full max-w-7xl items-center gap-6 px-6 py-3">
+              <Link href="/" className="font-semibold tracking-tight whitespace-nowrap">Escalation-Bench</Link>
+              <span className="hidden text-sm text-muted-foreground sm:inline">evaluation harness · offline fixtures</span>
+            </div>
           </header>
-          <main className="mx-auto w-full max-w-7xl flex-1 p-6">{children}</main>
+          <main className="mx-auto w-full max-w-7xl flex-1 px-6 py-8">{children}</main>
         </Providers>
       </body>
     </html>

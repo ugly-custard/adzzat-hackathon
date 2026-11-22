@@ -127,4 +127,10 @@
   html {
     @apply font-sans;
   }
+  ::selection {
+    background: color-mix(in oklch, var(--primary) 18%, transparent);
+  }
+  table {
+    font-variant-numeric: tabular-nums;
+  }
 }
