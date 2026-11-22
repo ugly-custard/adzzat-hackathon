@@ -1,6 +1,6 @@
 # Escalation-Bench: Track B evaluation harness + results UI
 
-Candidate ID and track: **<CANDIDATE-ID>** · Track B, Founding Full-Stack Engineer
+Candidate ID and track: **TRACK-B** · Track B, Founding Full-Stack Engineer
 Snapshot/commit: the `git rev-parse HEAD` of the submitted snapshot (history is in this repo).
 
 The harness loads tasks from YAML, runs an agent through permission-checked mock tools, records every step, blocks and records unauthorised attempts, grades saved traces with swappable graders, and shows the evidence in a server-rendered UI. Everything runs offline on a CPU laptop. No API key is needed.
